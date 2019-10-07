@@ -1,0 +1,51 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<h2>Simple image tagger - v0.3</h2>
+<hr />
+<form method="post" enctype="multipart/form-data" >
+    <div class="form-group">
+        <input type="file" asp-for="FileUpload" accept=".jpg,.jpeg,.png,.bmp"/>
+        <p class="help-block">Only jpg, png and bmp files are supported. Spaces will be replaced by "-"</p>
+        <input type="submit" class="btn btn-primary" value="Upload"/>
+    </div>
+</form>
+<hr />
+<div class="row"><h4>Total images in bucket: @(Model.ImagesInBucket?.Count ?? 0)</h4></div>
+
+<div class="container-fluid">
+    <table class="table">
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>Keywords detected</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var image in Model.ImagesInBucket)
+    {
+            <tr>
+                <td class="col-md-1"><img width="100px" src="@image.PresignedUrl" /><br/>@image.FileName</td>
+                <td>
+                    <table class="table-striped col-md-4">
+                        <tbody>
+                        @foreach (var tag in image.Tags)
+                        {
+                            <tr>
+                                <td class="col-md-1">
+                                    @tag.Key
+                                </td>
+                                <td class="col-md-1">@tag.Value</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+    }
+    </tbody>
+    </table>
+</div>

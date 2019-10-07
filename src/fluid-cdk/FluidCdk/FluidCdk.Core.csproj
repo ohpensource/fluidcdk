@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.CDK" Version="1.8.0-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.IAM" Version="1.8.0-devpreview" />
+  </ItemGroup>
+
+</Project>

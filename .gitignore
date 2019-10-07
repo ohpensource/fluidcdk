@@ -260,7 +260,5 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-/Src/Ohpen.BankDataRetrievalPortal.WebApi/Properties/launchSettings.json
-/Src/Base64UrlEncodeFromFile/Properties/launchSettings.json
-/Src/Ohpen.BankDataRetrievalPortal.Lambda/Properties/launchSettings.json
+launchSettings.json
 /Tests/mochawesome-report

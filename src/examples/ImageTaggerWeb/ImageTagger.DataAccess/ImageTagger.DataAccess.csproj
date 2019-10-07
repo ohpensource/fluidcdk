@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.101.64" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ImageTagger.Domain\ImageTagger.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

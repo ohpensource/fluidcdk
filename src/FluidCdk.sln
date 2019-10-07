@@ -1,0 +1,84 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29230.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{86446D2C-4E30-4383-80F4-9615C2982275}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTagger.Web", "examples\ImageTaggerWeb\ImageTagger\ImageTagger.Web.csproj", "{8EF67ADD-A77E-421B-8B5A-E9C6681E3F60}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTagger.Domain", "examples\ImageTaggerWeb\ImageTagger.Domain\ImageTagger.Domain.csproj", "{357A5BC8-253D-4549-8698-A545107B0CDC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTagger.DataAccess", "examples\ImageTaggerWeb\ImageTagger.DataAccess\ImageTagger.DataAccess.csproj", "{7560BD08-C41F-4A71-AEF9-D51CC0504610}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ImageTagger", "ImageTagger", "{C65F86B1-182B-46F9-8BF5-7C64397ED6ED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTagger.Infra", "examples\ImageTaggerWeb\ImageTagger.Infra\ImageTagger.Infra.csproj", "{BF7A9E5B-907A-4D17-AAB7-4CCEA3B9C5E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fluid-cdk", "Fluid-cdk", "{E29D5232-77D0-40F9-851E-7BCF8A27008E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluidCdk.Core", "fluid-cdk\FluidCdk\FluidCdk.Core.csproj", "{041997EC-1B03-4722-B29F-FA0479322C58}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTagger.Lambda", "examples\ImageTaggerWeb\ImageTagger.Lambda\ImageTagger.Lambda.csproj", "{78FECA51-CAC5-4949-9490-6AE8A47C1159}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluidCdk.Lambda", "fluid-cdk\FluidCdk.Lambda\FluidCdk.Lambda.csproj", "{1C614AE2-3725-4F02-B21B-112B3CFCF12D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluidCdk.S3", "fluid-cdk\FluidCdk.S3\FluidCdk.S3.csproj", "{90E574CC-F38D-4993-A963-79EF4C01FC65}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8EF67ADD-A77E-421B-8B5A-E9C6681E3F60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EF67ADD-A77E-421B-8B5A-E9C6681E3F60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EF67ADD-A77E-421B-8B5A-E9C6681E3F60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EF67ADD-A77E-421B-8B5A-E9C6681E3F60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{357A5BC8-253D-4549-8698-A545107B0CDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{357A5BC8-253D-4549-8698-A545107B0CDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{357A5BC8-253D-4549-8698-A545107B0CDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{357A5BC8-253D-4549-8698-A545107B0CDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7560BD08-C41F-4A71-AEF9-D51CC0504610}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7560BD08-C41F-4A71-AEF9-D51CC0504610}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7560BD08-C41F-4A71-AEF9-D51CC0504610}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7560BD08-C41F-4A71-AEF9-D51CC0504610}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF7A9E5B-907A-4D17-AAB7-4CCEA3B9C5E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF7A9E5B-907A-4D17-AAB7-4CCEA3B9C5E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF7A9E5B-907A-4D17-AAB7-4CCEA3B9C5E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF7A9E5B-907A-4D17-AAB7-4CCEA3B9C5E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{041997EC-1B03-4722-B29F-FA0479322C58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{041997EC-1B03-4722-B29F-FA0479322C58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{041997EC-1B03-4722-B29F-FA0479322C58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{041997EC-1B03-4722-B29F-FA0479322C58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78FECA51-CAC5-4949-9490-6AE8A47C1159}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78FECA51-CAC5-4949-9490-6AE8A47C1159}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78FECA51-CAC5-4949-9490-6AE8A47C1159}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78FECA51-CAC5-4949-9490-6AE8A47C1159}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C614AE2-3725-4F02-B21B-112B3CFCF12D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C614AE2-3725-4F02-B21B-112B3CFCF12D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C614AE2-3725-4F02-B21B-112B3CFCF12D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C614AE2-3725-4F02-B21B-112B3CFCF12D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90E574CC-F38D-4993-A963-79EF4C01FC65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90E574CC-F38D-4993-A963-79EF4C01FC65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90E574CC-F38D-4993-A963-79EF4C01FC65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90E574CC-F38D-4993-A963-79EF4C01FC65}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8EF67ADD-A77E-421B-8B5A-E9C6681E3F60} = {C65F86B1-182B-46F9-8BF5-7C64397ED6ED}
+		{357A5BC8-253D-4549-8698-A545107B0CDC} = {C65F86B1-182B-46F9-8BF5-7C64397ED6ED}
+		{7560BD08-C41F-4A71-AEF9-D51CC0504610} = {C65F86B1-182B-46F9-8BF5-7C64397ED6ED}
+		{C65F86B1-182B-46F9-8BF5-7C64397ED6ED} = {86446D2C-4E30-4383-80F4-9615C2982275}
+		{BF7A9E5B-907A-4D17-AAB7-4CCEA3B9C5E4} = {C65F86B1-182B-46F9-8BF5-7C64397ED6ED}
+		{041997EC-1B03-4722-B29F-FA0479322C58} = {E29D5232-77D0-40F9-851E-7BCF8A27008E}
+		{78FECA51-CAC5-4949-9490-6AE8A47C1159} = {C65F86B1-182B-46F9-8BF5-7C64397ED6ED}
+		{1C614AE2-3725-4F02-B21B-112B3CFCF12D} = {E29D5232-77D0-40F9-851E-7BCF8A27008E}
+		{90E574CC-F38D-4993-A963-79EF4C01FC65} = {E29D5232-77D0-40F9-851E-7BCF8A27008E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {331262F4-F6CB-4237-9B1C-35D2274F9AED}
+	EndGlobalSection
+EndGlobal
