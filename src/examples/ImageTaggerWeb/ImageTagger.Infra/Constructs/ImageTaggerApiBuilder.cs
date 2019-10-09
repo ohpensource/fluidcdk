@@ -21,19 +21,17 @@ namespace ImageTagger.Infra.Constructs
         {
             var infraConfig = _config.GetSection("Infrastructure");
             var name = infraConfig.GetValue<string>("RestApiFunctionName");
-            var codeBucket = infraConfig.GetValue<string>("CodeBucketName");
-            var codeBucketKey = infraConfig.GetValue<string>("RestApiFunctionBucketKey");
 
-            this.SourceFromBucket(codeBucket, codeBucketKey)
-                .SetHandler(typeof(ImageTagger.Web.LambdaEntryPoint),
-                    nameof(ImageTagger.Web.LambdaEntryPoint.FunctionHandlerAsync))
+            this
+                .SourceFromAsset(_config.GetValue<string>("ASSET_FOLDER") + $"\\ImageTagger.Web.zip")
+                .SetHandler("ImageTagger.Web::ImageTagger.Web.LambdaEntryPoint::FunctionHandlerAsync")
                 .SetName(name)
                 .GrantS3ReadWrite();
 
-
+            
             var result = base.Build(scope);
-
             result.AddEnvironment("IMGTAGGER_BUCKETNAME", _imageBucket.GetInstance(scope).BucketName);
+
             return result;
         }
     }

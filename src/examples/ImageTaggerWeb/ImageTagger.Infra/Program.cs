@@ -31,8 +31,10 @@ namespace HelloCdk
             _config = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json", false, true)
+                .AddEnvironmentVariables()
                 .Build();
 
+            
             services.AddSingleton<IConfiguration>(_config);
             services.AddLogging(loggingBuilder =>
             {

@@ -30,14 +30,7 @@ namespace ImageTagger.Domain.Services
         {
             try
             {
-
-                await _s3Client.PutObjectAsync(new PutObjectRequest
-                {
-                    Key = filename,
-                    BucketName = _s3BucketName,
-                    InputStream = file,
-                    ContentType = "image/jpeg"
-                });
+                await _s3Client.UploadObjectFromStreamAsync(_s3BucketName, filename, file, null);
             }
             catch (Exception ex)
             {
@@ -45,7 +38,6 @@ namespace ImageTagger.Domain.Services
                 throw;
             }
 
-            // await _s3Client.UploadObjectFromStreamAsync(_s3BucketName, filename, file, null);
         }
 
         public async Task<IEnumerable<TaggedImage>> GetAllImages()

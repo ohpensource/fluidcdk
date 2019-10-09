@@ -1,4 +1,5 @@
-﻿using Amazon.CDK;
+﻿using System.IO;
+using Amazon.CDK;
 using Amazon.CDK.AWS.Lambda;
 using Amazon.CDK.AWS.Lambda.EventSources;
 using Amazon.CDK.AWS.S3;
@@ -28,8 +29,8 @@ namespace ImageTagger.Infra.Constructs
                 .GetValue<string>("ImageTaggerFunctionName");
 
             this.SetName(functionName)
-                .SetHandler(typeof(ImageTagger.Lambda.Function), nameof(ImageTagger.Lambda.Function.Handler))
-                .SourceFromBucket(config.GetValue<string>("CodeBucketName"), config.GetValue<string>("ImageTaggerFunctionBucketKey"))
+                .SetHandler("ImageTagger.Lambda::ImageTagger.Lambda.Function::Handler")
+                .SourceFromAsset(_config.GetValue<string>("ASSET_FOLDER") +$"\\ImageTagger.Lambda.zip")
                 .GrantRecognitionReadOnly()
                 .GrantS3ReadWrite()
                 .AddS3EventSource(_bucketBuilder, new S3EventSourceProps

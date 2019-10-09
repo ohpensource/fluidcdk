@@ -19,6 +19,7 @@ namespace FluidCdk.Lambda
 
     public class FunctionBuilder : ConstructBuilderBase<Function>, IFunctionBuilder
     {
+
         protected readonly FunctionProps _props = new FunctionProps
         {
             Runtime = Runtime.DOTNET_CORE_2_1,
@@ -26,6 +27,7 @@ namespace FluidCdk.Lambda
             MemorySize = 128
         };
 
+        string _name = "";
         readonly List<S3EventEntity> _s3Events = new List<S3EventEntity>();
         string _codeBucketKey = null;
         string _codeBucket = null;
@@ -36,14 +38,14 @@ namespace FluidCdk.Lambda
 
         public FunctionBuilder(string name)
         {
-            _props.FunctionName = name;
+            _name = name;
         }
 
         protected override Function Build(Construct scope)
         {
             if (!string.IsNullOrWhiteSpace(_codeBucket))
             {
-                var bucket = Bucket.FromBucketName(scope, _codeBucket+_props.FunctionName, _codeBucket);
+                var bucket = Bucket.FromBucketName(scope, _codeBucket+_name, _codeBucket);
                 _props.Code = Code.FromBucket(bucket, _codeBucketKey);
             }
 
@@ -52,7 +54,7 @@ namespace FluidCdk.Lambda
                 _props.Code = Code.FromAsset(_assetPath);
             }
       
-            var lambda = new Function(scope, _props.FunctionName, _props);
+            var lambda = new Function(scope, _name, _props);
 
             _s3Events.ForEach(e => lambda.AddEventSource(new S3EventSource(e.BucketBuilder.GetInstance(scope), e.Props)));
             _policyStatements.ForEach(p => lambda.AddToRolePolicy(p));
@@ -64,7 +66,7 @@ namespace FluidCdk.Lambda
 
         public FunctionBuilder SetName(string functionName)
         {
-            _props.FunctionName = functionName;
+            _name = functionName;
             return this;
         }
 
@@ -112,29 +114,16 @@ namespace FluidCdk.Lambda
             return this;
         }
 
-        public FunctionBuilder SourceFromAsset(string assetPath)
+        public FunctionBuilder SourceFromAsset(string assetLocation)
         {
-            _assetPath = assetPath;
+            _assetPath = assetLocation;
             return this;
         }
 
         public FunctionBuilder WithInlineCode(Runtime runtime, string code)
         {
             _props.Runtime = runtime;
-            _props.Code = Code.Inline(code);
-            return this;
-        }
-
-        public FunctionBuilder WithDefaultWebApiTemplate(string codeBucket, string codeBucketKey, string handler)
-        {
-            return this.SetHandler(handler)
-                .SourceFromBucket(codeBucket, codeBucketKey);
-
-        }
-
-        public FunctionBuilder WithVpcSubnets(params string[] subnets)
-        {
-            _props.VpcSubnets = new SubnetSelection() { SubnetName = string.Join(",", subnets) };
+            _props.Code = Code.FromInline(code);
             return this;
         }
 
