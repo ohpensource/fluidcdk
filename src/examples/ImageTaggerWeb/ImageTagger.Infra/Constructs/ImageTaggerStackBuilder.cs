@@ -8,15 +8,17 @@ namespace ImageTagger.Infra.Constructs
 
     public class ImageTaggerStackBuilder : StackBuilder, IImageTaggerStackBuilder
     {
-        readonly IImageTaggerLambdaBuilder _lambdaBuilder;
-        readonly IImageTaggerApiBuilder _apiBuilder;
+        readonly ITaggerFunctionBuilder _functionBuilder;
+        readonly IWebAppFunctionBuilder _apiBuilder;
         readonly IConfiguration _config;
+        private readonly IWebAppRestApiBuilder _restApi;
 
-        public ImageTaggerStackBuilder(IImageTaggerLambdaBuilder lambdaBuilder, IImageTaggerApiBuilder apiBuilder, IConfiguration config)
+        public ImageTaggerStackBuilder(ITaggerFunctionBuilder functionBuilder, IWebAppFunctionBuilder apiBuilder, IConfiguration config, IWebAppRestApiBuilder restApi)
         {
-            _lambdaBuilder = lambdaBuilder;
+            _functionBuilder = functionBuilder;
             _apiBuilder = apiBuilder;
             _config = config;
+            _restApi = restApi;
         }
 
         protected override Stack Build(Construct scope)
@@ -25,7 +27,8 @@ namespace ImageTagger.Infra.Constructs
 
             this.SetName(config.GetValue<string>("ImageTaggerStackName"))
                 .SetEnv(config.GetValue<string>("account"), config.GetValue<string>("region"))
-                .Add(_lambdaBuilder)
+                .Add(_functionBuilder)
+                .Add(_restApi)
                 .Add(_apiBuilder);
 
             return base.Build(scope);

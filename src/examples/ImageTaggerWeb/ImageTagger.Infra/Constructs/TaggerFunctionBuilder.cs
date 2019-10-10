@@ -8,14 +8,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace ImageTagger.Infra.Constructs
 {
-    public interface IImageTaggerLambdaBuilder : IFunctionBuilder {}
+    public interface ITaggerFunctionBuilder : IFunctionBuilder {}
 
-    public class ImageTaggerLambdaBuilder : FunctionBuilder, IImageTaggerLambdaBuilder
+    public class TaggerFunctionBuilder : FunctionBuilder, ITaggerFunctionBuilder
     {
         readonly IConfiguration _config;
         readonly IImageBucketBuilder _bucketBuilder;
         
-        public ImageTaggerLambdaBuilder(IConfiguration config, IImageBucketBuilder bucketBuilder)
+        public TaggerFunctionBuilder(IConfiguration config, IImageBucketBuilder bucketBuilder)
         {
             _config = config;
             _bucketBuilder = bucketBuilder;

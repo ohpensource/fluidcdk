@@ -15,7 +15,24 @@ using FluidCdk.Lambda.Entities;
 namespace FluidCdk.Lambda
 {
 
-    public interface IFunctionBuilder : IConstructBuilder<Function> { }
+    public interface IFunctionBuilder : IConstructBuilder<Function>
+    {
+        IFunctionBuilder SetName(string name);
+        IFunctionBuilder SetDescription(string description);
+        IFunctionBuilder SetTimeout(Duration timeout);
+        IFunctionBuilder SetMemorySize(int memorySize);
+        IFunctionBuilder SetHandler(string handler);
+        IFunctionBuilder SetHandler(Type type, string handler);
+        IFunctionBuilder SetLogRetentionDays(RetentionDays retentionDays);
+        IFunctionBuilder SourceFromBucket(string bucketName, string key);
+        IFunctionBuilder SourceFromAsset(string assetLocation);
+        IFunctionBuilder WithInlineCode(Runtime runtime, string code);
+        IFunctionBuilder AddS3EventSource(IConstructBuilder<Bucket> bucketBuilder, S3EventSourceProps props);
+        IFunctionBuilder AddPolicyStatement(PolicyStatement policyStatement);
+        IFunctionBuilder GrantS3ReadWrite();
+        IFunctionBuilder GrantS3ReadOnly();
+        IFunctionBuilder GrantRecognitionReadOnly();
+    }
 
     public class FunctionBuilder : ConstructBuilderBase<Function>, IFunctionBuilder
     {
@@ -32,6 +49,7 @@ namespace FluidCdk.Lambda
         string _codeBucketKey = null;
         string _codeBucket = null;
         string _assetPath = null;
+
         readonly List<PolicyStatement> _policyStatements = new List<PolicyStatement>();
 
         public FunctionBuilder() { }
@@ -53,60 +71,58 @@ namespace FluidCdk.Lambda
             {
                 _props.Code = Code.FromAsset(_assetPath);
             }
-      
+
             var lambda = new Function(scope, _name, _props);
 
             _s3Events.ForEach(e => lambda.AddEventSource(new S3EventSource(e.BucketBuilder.GetInstance(scope), e.Props)));
             _policyStatements.ForEach(p => lambda.AddToRolePolicy(p));
 
-            lambda.AddEnvironment("BUILD_TIMESTAMP", $"{DateTime.Now:O}");
-
             return lambda;
         }
 
-        public FunctionBuilder SetName(string functionName)
+        public IFunctionBuilder SetName(string functionName)
         {
             _name = functionName;
             return this;
         }
 
-        public FunctionBuilder SetDescription(string description)
+        public IFunctionBuilder SetDescription(string description)
         {
             _props.Description = description;
             return this;
         }
 
-        public FunctionBuilder SetTimeout(Duration timeout)
+        public IFunctionBuilder SetTimeout(Duration timeout)
         {
             _props.Timeout = timeout;
             return this;
         }
 
-        public FunctionBuilder SetMemorySize(int memorySize)
+        public IFunctionBuilder SetMemorySize(int memorySize)
         {
             _props.MemorySize = memorySize;
             return this;
         }
 
-        public FunctionBuilder SetHandler(string handler)
+        public IFunctionBuilder SetHandler(string handler)
         {
             _props.Handler = handler;
             return this;
         }
 
-        public FunctionBuilder SetHandler(Type type, string handler)
+        public IFunctionBuilder SetHandler(Type type, string handler)
         {
             _props.Handler = $"{type.Namespace}::{type.FullName}::{handler}";
             return this; 
         }
 
-        public FunctionBuilder SetLogRetentionDays(RetentionDays retentionDays)
+        public IFunctionBuilder SetLogRetentionDays(RetentionDays retentionDays)
         {
             _props.LogRetention = retentionDays;
             return this;
         }
 
-        public FunctionBuilder SourceFromBucket(string bucketName, string key)
+        public IFunctionBuilder SourceFromBucket(string bucketName, string key)
         {
             _codeBucket = bucketName;
             _codeBucketKey = key;
@@ -114,47 +130,48 @@ namespace FluidCdk.Lambda
             return this;
         }
 
-        public FunctionBuilder SourceFromAsset(string assetLocation)
+        public IFunctionBuilder SourceFromAsset(string assetLocation)
         {
             _assetPath = assetLocation;
             return this;
         }
 
-        public FunctionBuilder WithInlineCode(Runtime runtime, string code)
+        public IFunctionBuilder WithInlineCode(Runtime runtime, string code)
         {
             _props.Runtime = runtime;
             _props.Code = Code.FromInline(code);
             return this;
         }
 
-        public FunctionBuilder AddS3EventSource(IConstructBuilder<Bucket> bucketBuilder, S3EventSourceProps props )
+        public IFunctionBuilder AddS3EventSource(IConstructBuilder<Bucket> bucketBuilder, S3EventSourceProps props )
         {
             _s3Events.Add(new S3EventEntity { BucketBuilder = bucketBuilder, Props = props});
             return this;
         }
 
-        public FunctionBuilder AddPolicyStatement(PolicyStatement policyStatement)
+        public IFunctionBuilder AddPolicyStatement(PolicyStatement policyStatement)
         {
             _policyStatements.Add(policyStatement);
             return this;
         }
 
-        public FunctionBuilder GrantS3ReadWrite()
+        public IFunctionBuilder GrantS3ReadWrite()
         {
             return AddPolicyStatement(S3Helper.GetFullAccess());
         }
 
-        public FunctionBuilder GrantS3ReadOnly()
+        public IFunctionBuilder GrantS3ReadOnly()
         {
             return AddPolicyStatement(S3Helper.GetReadonlyAccess());
         }
 
-        public FunctionBuilder GrantRecognitionReadOnly()
+        public IFunctionBuilder GrantRecognitionReadOnly()
         {
             var imgRecPolicyStatement = new PolicyStatement();
             imgRecPolicyStatement.AddActions("rekognition:*");
             imgRecPolicyStatement.AddResources("*");
             return AddPolicyStatement(imgRecPolicyStatement);
         }
+
     }
 }

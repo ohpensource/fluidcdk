@@ -45,8 +45,9 @@ namespace HelloCdk
 
             services.AddSingleton<IImageTaggerStackBuilder, ImageTaggerStackBuilder>();
             services.AddSingleton<IImageBucketBuilder, ImageBucketBuilder>();
-            services.AddSingleton<IImageTaggerLambdaBuilder, ImageTaggerLambdaBuilder>();
-            services.AddSingleton<IImageTaggerApiBuilder, ImageTaggerApiBuilder>();
+            services.AddSingleton<ITaggerFunctionBuilder, TaggerFunctionBuilder>();
+            services.AddSingleton<IWebAppFunctionBuilder, WebAppFunctionBuilder>();
+            services.AddSingleton<IWebAppRestApiBuilder, WebAppRestApiBuilder>();
 
         }
 

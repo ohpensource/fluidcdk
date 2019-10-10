@@ -4,14 +4,15 @@ using Microsoft.Extensions.Configuration;
 
 namespace ImageTagger.Infra.Constructs
 {
-    public interface IImageTaggerApiBuilder : IApiFunctionBuilder { }
+    public interface IWebAppFunctionBuilder : IFunctionBuilder { }
 
-    public class ImageTaggerApiBuilder : ApiFunctionBuilder, IImageTaggerApiBuilder
+    public class WebAppFunctionBuilder : FunctionBuilder, IWebAppFunctionBuilder
     {
         readonly IConfiguration _config;
         readonly IImageBucketBuilder _imageBucket;
+        private readonly IWebAppRestApiBuilder _webAppRestApiBuilder;
 
-        public ImageTaggerApiBuilder(IConfiguration config, IImageBucketBuilder imageBucket)
+        public WebAppFunctionBuilder(IConfiguration config, IImageBucketBuilder imageBucket)
         {
             _config = config;
             _imageBucket = imageBucket;
