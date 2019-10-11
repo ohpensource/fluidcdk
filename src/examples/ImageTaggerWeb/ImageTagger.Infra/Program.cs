@@ -9,8 +9,6 @@ namespace HelloCdk
 {
     static class Program
     {
-        static IConfiguration _config;
-
         static void Main(string[] args)
         {
             var serviceCollection = new ServiceCollection();
@@ -28,7 +26,7 @@ namespace HelloCdk
 
         static void ConfigureServices(ServiceCollection services)
         {
-            _config = new ConfigurationBuilder()
+            var _config = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json", false, true)
                 .AddEnvironmentVariables()

@@ -29,7 +29,7 @@ namespace FluidCdk.Lambda
         IFunctionBuilder SourceFromAsset(string assetLocation);
         IFunctionBuilder WithInlineCode(Runtime runtime, string code);
         IFunctionBuilder AddS3EventSource(IConstructBuilder<Bucket> bucketBuilder, S3EventSourceProps props);
-        IFunctionBuilder Grant(PolicyStatement policyStatement);
+        IFunctionBuilder Grant(IGrantBuilder policyStatementBuilder);
         IFunctionBuilder GrantS3ReadWrite();
         IFunctionBuilder GrantS3ReadOnly();
         IFunctionBuilder GrantRecognitionReadOnly();
@@ -135,6 +135,12 @@ namespace FluidCdk.Lambda
         public IFunctionBuilder AddS3EventSource(IConstructBuilder<Bucket> bucketBuilder, S3EventSourceProps props )
         {
             _s3Events.Add(new S3EventEntity { BucketBuilder = bucketBuilder, Props = props});
+            return this;
+        }
+
+        public IFunctionBuilder Grant(IGrantBuilder grantBuilder)
+        {
+            _policyStatements.Add(grantBuilder.Build());
             return this;
         }
 

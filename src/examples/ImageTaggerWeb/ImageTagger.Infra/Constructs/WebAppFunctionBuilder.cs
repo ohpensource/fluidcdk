@@ -1,4 +1,5 @@
 ﻿using Amazon.CDK;
+using FluidCdk.IAM.Grants;
 using FluidCdk.Lambda;
 using Microsoft.Extensions.Configuration;
 
@@ -27,7 +28,11 @@ namespace ImageTagger.Infra.Constructs
                 .SetHandler("ImageTagger.Web::ImageTagger.Web.LambdaEntryPoint::FunctionHandlerAsync")
                 .SetName(name)
                 .AddEnvVariables("IMGTAGGER_BUCKETNAME", _imageBucket.GetInstance(scope).BucketName)
-                .GrantS3ReadWrite();
+                .Grant(new S3Grant()
+                    .ReadWrite()
+                    .On(_imageBucket.GetInstance(scope).BucketArn)
+                );
+                
 
             var result = base.Build(scope);
 

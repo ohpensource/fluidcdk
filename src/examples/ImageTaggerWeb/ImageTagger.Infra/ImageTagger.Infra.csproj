@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\fluid-cdk\FluidCdk.IAM\FluidCdk.IAM.csproj" />
     <ProjectReference Include="..\..\..\fluid-cdk\FluidCdk.Lambda\FluidCdk.Lambda.csproj" />
     <ProjectReference Include="..\..\..\fluid-cdk\FluidCdk.S3\FluidCdk.S3.csproj" />
     <ProjectReference Include="..\..\..\fluid-cdk\FluidCdk\FluidCdk.Core.csproj" />

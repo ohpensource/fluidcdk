@@ -21,9 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluidCdk.Core", "fluid-cdk\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTagger.Lambda", "examples\ImageTaggerWeb\ImageTagger.Lambda\ImageTagger.Lambda.csproj", "{78FECA51-CAC5-4949-9490-6AE8A47C1159}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluidCdk.Lambda", "fluid-cdk\FluidCdk.Lambda\FluidCdk.Lambda.csproj", "{1C614AE2-3725-4F02-B21B-112B3CFCF12D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluidCdk.Lambda", "fluid-cdk\FluidCdk.Lambda\FluidCdk.Lambda.csproj", "{1C614AE2-3725-4F02-B21B-112B3CFCF12D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluidCdk.S3", "fluid-cdk\FluidCdk.S3\FluidCdk.S3.csproj", "{90E574CC-F38D-4993-A963-79EF4C01FC65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluidCdk.S3", "fluid-cdk\FluidCdk.S3\FluidCdk.S3.csproj", "{90E574CC-F38D-4993-A963-79EF4C01FC65}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluidCdk.IAM", "fluid-cdk\FluidCdk.IAM\FluidCdk.IAM.csproj", "{D3BD4A4B-ACEC-49AA-A7C4-FC318477A082}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{90E574CC-F38D-4993-A963-79EF4C01FC65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90E574CC-F38D-4993-A963-79EF4C01FC65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90E574CC-F38D-4993-A963-79EF4C01FC65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3BD4A4B-ACEC-49AA-A7C4-FC318477A082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3BD4A4B-ACEC-49AA-A7C4-FC318477A082}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3BD4A4B-ACEC-49AA-A7C4-FC318477A082}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3BD4A4B-ACEC-49AA-A7C4-FC318477A082}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +83,7 @@ Global
 		{78FECA51-CAC5-4949-9490-6AE8A47C1159} = {C65F86B1-182B-46F9-8BF5-7C64397ED6ED}
 		{1C614AE2-3725-4F02-B21B-112B3CFCF12D} = {E29D5232-77D0-40F9-851E-7BCF8A27008E}
 		{90E574CC-F38D-4993-A963-79EF4C01FC65} = {E29D5232-77D0-40F9-851E-7BCF8A27008E}
+		{D3BD4A4B-ACEC-49AA-A7C4-FC318477A082} = {E29D5232-77D0-40F9-851E-7BCF8A27008E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {331262F4-F6CB-4237-9B1C-35D2274F9AED}
