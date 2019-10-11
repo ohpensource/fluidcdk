@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Amazon.CDK;
 using Amazon.CDK.AWS.EC2;
 using Amazon.CDK.AWS.IAM;
@@ -28,10 +29,13 @@ namespace FluidCdk.Lambda
         IFunctionBuilder SourceFromAsset(string assetLocation);
         IFunctionBuilder WithInlineCode(Runtime runtime, string code);
         IFunctionBuilder AddS3EventSource(IConstructBuilder<Bucket> bucketBuilder, S3EventSourceProps props);
-        IFunctionBuilder AddPolicyStatement(PolicyStatement policyStatement);
+        IFunctionBuilder Grant(PolicyStatement policyStatement);
         IFunctionBuilder GrantS3ReadWrite();
         IFunctionBuilder GrantS3ReadOnly();
         IFunctionBuilder GrantRecognitionReadOnly();
+
+        IFunctionBuilder AddEnvVariables(string key, string value);
+        IFunctionBuilder AddEnvVariables(IDictionary<string, string> variables);
     }
 
     public class FunctionBuilder : ConstructBuilderBase<Function>, IFunctionBuilder
@@ -45,37 +49,22 @@ namespace FluidCdk.Lambda
         };
 
         string _name = "";
-        readonly List<S3EventEntity> _s3Events = new List<S3EventEntity>();
         string _codeBucketKey = null;
         string _codeBucket = null;
         string _assetPath = null;
-
+        readonly List<S3EventEntity> _s3Events = new List<S3EventEntity>();
+        readonly Dictionary<string,string> _envVariables = new Dictionary<string, string>();
         readonly List<PolicyStatement> _policyStatements = new List<PolicyStatement>();
-
-        public FunctionBuilder() { }
-
-        public FunctionBuilder(string name)
-        {
-            _name = name;
-        }
 
         protected override Function Build(Construct scope)
         {
-            if (!string.IsNullOrWhiteSpace(_codeBucket))
-            {
-                var bucket = Bucket.FromBucketName(scope, _codeBucket+_name, _codeBucket);
-                _props.Code = Code.FromBucket(bucket, _codeBucketKey);
-            }
-
-            if (!string.IsNullOrWhiteSpace(_assetPath))
-            {
-                _props.Code = Code.FromAsset(_assetPath);
-            }
+            SetCodeSource(scope);
 
             var lambda = new Function(scope, _name, _props);
 
-            _s3Events.ForEach(e => lambda.AddEventSource(new S3EventSource(e.BucketBuilder.GetInstance(scope), e.Props)));
-            _policyStatements.ForEach(p => lambda.AddToRolePolicy(p));
+            BuildEnvVariables(lambda);
+            BuildS3Events(lambda, scope);
+            BuildPolicyStatements(lambda);
 
             return lambda;
         }
@@ -149,7 +138,7 @@ namespace FluidCdk.Lambda
             return this;
         }
 
-        public IFunctionBuilder AddPolicyStatement(PolicyStatement policyStatement)
+        public IFunctionBuilder Grant(PolicyStatement policyStatement)
         {
             _policyStatements.Add(policyStatement);
             return this;
@@ -157,12 +146,12 @@ namespace FluidCdk.Lambda
 
         public IFunctionBuilder GrantS3ReadWrite()
         {
-            return AddPolicyStatement(S3Helper.GetFullAccess());
+            return Grant(S3Helper.GetFullAccess());
         }
 
         public IFunctionBuilder GrantS3ReadOnly()
         {
-            return AddPolicyStatement(S3Helper.GetReadonlyAccess());
+            return Grant(S3Helper.GetReadonlyAccess());
         }
 
         public IFunctionBuilder GrantRecognitionReadOnly()
@@ -170,8 +159,63 @@ namespace FluidCdk.Lambda
             var imgRecPolicyStatement = new PolicyStatement();
             imgRecPolicyStatement.AddActions("rekognition:*");
             imgRecPolicyStatement.AddResources("*");
-            return AddPolicyStatement(imgRecPolicyStatement);
+            return Grant(imgRecPolicyStatement);
         }
 
+        public IFunctionBuilder AddEnvVariables(string key, string value)
+        {
+            if (_envVariables.ContainsKey(key))
+                _envVariables[key] = value;
+            else
+                _envVariables.Add(key,value);
+
+            return this;
+        }
+
+        public IFunctionBuilder AddEnvVariables(IDictionary<string, string> variables)
+        {
+            foreach (var keyValuePair in variables)
+            {
+                AddEnvVariables(keyValuePair.Key, keyValuePair.Value);
+            }
+
+            return this;
+        }
+
+        private void SetCodeSource(Construct scope)
+        {
+            if (!string.IsNullOrWhiteSpace(_codeBucket))
+            {
+                var bucket = Bucket.FromBucketName(scope, _codeBucket+_name, _codeBucket);
+                _props.Code = Code.FromBucket(bucket, _codeBucketKey);
+            }
+
+            if (!string.IsNullOrWhiteSpace(_assetPath))
+            {
+                _props.Code = Code.FromAsset(_assetPath);
+            }
+
+        }
+
+        private void BuildEnvVariables(Function lambda)
+        {
+            if (_envVariables.Any())
+            {
+                foreach (var keyValuePair in _envVariables)
+                {
+                    lambda.AddEnvironment(keyValuePair.Key, keyValuePair.Value);
+                }
+            }
+        }
+
+        private void BuildS3Events(Function lambda, Construct scope)
+        {
+            _s3Events.ForEach(e => lambda.AddEventSource(new S3EventSource(e.BucketBuilder.GetInstance(scope), e.Props)));
+        }
+
+        private void BuildPolicyStatements(Function lambda)
+        {
+            _policyStatements.ForEach(lambda.AddToRolePolicy);
+        }
     }
 }
