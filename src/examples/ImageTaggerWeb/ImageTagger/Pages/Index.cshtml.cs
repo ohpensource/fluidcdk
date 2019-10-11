@@ -37,7 +37,7 @@ namespace ImageTagger.Web.Pages
         {
             try
             {
-                ImagesInBucket = (await _imageService.GetAllImageUrls()).ToList();
+                ImagesInBucket = (await _imageService.GetAllImageUrls())?.ToList();
             }
             catch (Exception ex)
             {
@@ -48,17 +48,25 @@ namespace ImageTagger.Web.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (FileUpload != null)
+            try
             {
-                using (var stream = FileUpload.OpenReadStream())
+                if (FileUpload != null)
                 {
+                    using (var stream = FileUpload.OpenReadStream())
+                    {
 
-                    var fileName = FileUpload.FileName.Replace(" ", "-");
-                    await _imageService.UploadImageAsync(stream, fileName);
+                        var fileName = FileUpload.FileName.Replace(" ", "-");
+                        await _imageService.UploadImageAsync(stream, fileName);
+                    }
                 }
-            }
 
-            return Redirect(Url.Content("~/"));
+                return Redirect(Url.Content("~/"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in OnPostAsync: \n" + JsonConvert.SerializeObject(ex));
+                throw;
+            }
         }
     }
 }

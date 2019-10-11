@@ -25,10 +25,12 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var image in Model.ImagesInBucket)
+    @if (Model?.ImagesInBucket != null)
     {
+        foreach (var image in Model?.ImagesInBucket)
+        {
             <tr>
-                <td class="col-md-1"><img width="100px" src="@image.PresignedUrl" /><br/>@image.FileName</td>
+                <td class="col-md-1"><img width="100px" src="@image.PresignedUrl"/><br/>@image.FileName</td>
                 <td>
                     <table class="table-striped col-md-4">
                         <tbody>
@@ -45,6 +47,7 @@
                     </table>
                 </td>
             </tr>
+        }
     }
     </tbody>
     </table>

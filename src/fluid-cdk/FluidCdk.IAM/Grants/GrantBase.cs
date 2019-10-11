@@ -14,6 +14,12 @@ namespace FluidCdk.IAM.Grants
         protected List<string> ActionList { get; set; }
         protected List<string> ResourceList { get; set; }
 
+        public GrantBase()
+        {
+            ActionList = new List<string>();
+            ResourceList = new List<string>();
+        }
+
         public virtual GrantBase Actions(params string[] actions)
         {
             ActionList.AddRange(actions);
@@ -38,7 +44,7 @@ namespace FluidCdk.IAM.Grants
             {
                 Effect = GrantEffect, 
                 Actions = (ActionList.Any() ? ActionList.ToArray() : null),
-                Resources = (ResourceList.Any() ? ResourceList.ToArray() : null)
+                Resources = (ResourceList.Any() ? ResourceList.ToArray() : new string[] { "*" })
             };
             return new PolicyStatement(props);
         }

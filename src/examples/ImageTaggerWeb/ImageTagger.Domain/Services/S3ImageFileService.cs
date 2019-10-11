@@ -64,7 +64,7 @@ namespace ImageTagger.Domain.Services
 
         private bool IsSupportedImageFormat(string fileName)
         {
-            return new[] {".jpg", ".png", ".bmp"}.Contains(Path.GetExtension(fileName)?.ToLower());
+            return new[] {".jpg", ".png", ".jpeg", ".bmp"}.Contains(Path.GetExtension(fileName)?.ToLower());
         }
 
         private async Task<Dictionary<string, string>> GetFileTags(string key)

@@ -25,10 +25,7 @@ namespace ImageTagger.Infra.Constructs
         protected override Function Build(Construct scope)
         {
             var config = _config.GetSection("Infrastructure");
-
-            var functionName = config
-                .GetValue<string>("ImageTaggerFunctionName");
-
+            var functionName = config.GetValue<string>("ImageTaggerFunctionName");
             var assetFilename = _config.GetValue<string>("ASSET_FOLDER") + $"\\ImageTagger.Lambda.zip";
 
             this.SetName(functionName)
