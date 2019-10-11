@@ -3,6 +3,7 @@ using Amazon.CDK;
 using Amazon.CDK.AWS.Lambda;
 using Amazon.CDK.AWS.Lambda.EventSources;
 using Amazon.CDK.AWS.S3;
+using FluidCdk.IAM.Grants;
 using FluidCdk.Lambda;
 using Microsoft.Extensions.Configuration;
 
@@ -28,15 +29,14 @@ namespace ImageTagger.Infra.Constructs
             var functionName = config
                 .GetValue<string>("ImageTaggerFunctionName");
 
+            var assetFilename = _config.GetValue<string>("ASSET_FOLDER") + $"\\ImageTagger.Lambda.zip";
+
             this.SetName(functionName)
                 .SetHandler("ImageTagger.Lambda::ImageTagger.Lambda.Function::Handler")
-                .SourceFromAsset(_config.GetValue<string>("ASSET_FOLDER") +$"\\ImageTagger.Lambda.zip")
-                .GrantRecognitionReadOnly()
-                .GrantS3ReadWrite()
-                .AddS3EventSource(_bucketBuilder, new S3EventSourceProps
-                {
-                    Events = new EventType[] { EventType.OBJECT_CREATED }
-                });
+                .SourceFromAsset(assetFilename)
+                .Grant(new RekognitionGrant().FullAccess())
+                .Grant(new S3Grant().ReadWrite().On(_bucketBuilder.GetInstance(scope).BucketArn))
+                .AddS3EventSource(_bucketBuilder, EventType.OBJECT_CREATED);
             
             return base.Build(scope);
         }

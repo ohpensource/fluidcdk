@@ -28,12 +28,8 @@ namespace FluidCdk.Lambda
         IFunctionBuilder SourceFromBucket(string bucketName, string key);
         IFunctionBuilder SourceFromAsset(string assetLocation);
         IFunctionBuilder WithInlineCode(Runtime runtime, string code);
-        IFunctionBuilder AddS3EventSource(IConstructBuilder<Bucket> bucketBuilder, S3EventSourceProps props);
+        IFunctionBuilder AddS3EventSource(IConstructBuilder<Bucket> bucketBuilder, params EventType[] eventTypes);
         IFunctionBuilder Grant(IGrantBuilder policyStatementBuilder);
-        IFunctionBuilder GrantS3ReadWrite();
-        IFunctionBuilder GrantS3ReadOnly();
-        IFunctionBuilder GrantRecognitionReadOnly();
-
         IFunctionBuilder AddEnvVariables(string key, string value);
         IFunctionBuilder AddEnvVariables(IDictionary<string, string> variables);
     }
@@ -132,8 +128,13 @@ namespace FluidCdk.Lambda
             return this;
         }
 
-        public IFunctionBuilder AddS3EventSource(IConstructBuilder<Bucket> bucketBuilder, S3EventSourceProps props )
+        public IFunctionBuilder AddS3EventSource(IConstructBuilder<Bucket> bucketBuilder, params EventType[] eventTypes)
         {
+            var props = new S3EventSourceProps
+            {
+                Events = eventTypes
+            };
+
             _s3Events.Add(new S3EventEntity { BucketBuilder = bucketBuilder, Props = props});
             return this;
         }
@@ -142,30 +143,6 @@ namespace FluidCdk.Lambda
         {
             _policyStatements.Add(grantBuilder.Build());
             return this;
-        }
-
-        public IFunctionBuilder Grant(PolicyStatement policyStatement)
-        {
-            _policyStatements.Add(policyStatement);
-            return this;
-        }
-
-        public IFunctionBuilder GrantS3ReadWrite()
-        {
-            return Grant(S3Helper.GetFullAccess());
-        }
-
-        public IFunctionBuilder GrantS3ReadOnly()
-        {
-            return Grant(S3Helper.GetReadonlyAccess());
-        }
-
-        public IFunctionBuilder GrantRecognitionReadOnly()
-        {
-            var imgRecPolicyStatement = new PolicyStatement();
-            imgRecPolicyStatement.AddActions("rekognition:*");
-            imgRecPolicyStatement.AddResources("*");
-            return Grant(imgRecPolicyStatement);
         }
 
         public IFunctionBuilder AddEnvVariables(string key, string value)
