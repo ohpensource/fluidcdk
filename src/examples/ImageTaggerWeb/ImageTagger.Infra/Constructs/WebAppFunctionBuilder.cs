@@ -10,7 +10,6 @@ namespace ImageTagger.Infra.Constructs
     {
         readonly IConfiguration _config;
         readonly IImageBucketBuilder _imageBucket;
-        private readonly IWebAppRestApiBuilder _webAppRestApiBuilder;
 
         public WebAppFunctionBuilder(IConfiguration config, IImageBucketBuilder imageBucket)
         {
@@ -27,11 +26,10 @@ namespace ImageTagger.Infra.Constructs
                 .SourceFromAsset(_config.GetValue<string>("ASSET_FOLDER") + $"\\ImageTagger.Web.zip")
                 .SetHandler("ImageTagger.Web::ImageTagger.Web.LambdaEntryPoint::FunctionHandlerAsync")
                 .SetName(name)
+                .AddEnvVariables("IMGTAGGER_BUCKETNAME", _imageBucket.GetInstance(scope).BucketName)
                 .GrantS3ReadWrite();
 
-            
             var result = base.Build(scope);
-            result.AddEnvironment("IMGTAGGER_BUCKETNAME", _imageBucket.GetInstance(scope).BucketName);
 
             return result;
         }

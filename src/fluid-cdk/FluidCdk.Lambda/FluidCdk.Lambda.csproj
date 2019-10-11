@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amazon.CDK.AWS.Lambda" Version="1.11.0-devpreview" />
-    <PackageReference Include="Amazon.CDK.AWS.Lambda.EventSources" Version="1.11.0-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.Lambda" Version="1.12.0-devpreview" />
+    <PackageReference Include="Amazon.CDK.AWS.Lambda.EventSources" Version="1.12.0-devpreview" />
   </ItemGroup>
 
   <ItemGroup>
