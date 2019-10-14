@@ -32,7 +32,10 @@ namespace ImageTagger.Infra.Constructs
                 .SetHandler("ImageTagger.Lambda::ImageTagger.Lambda.Function::Handler")
                 .SourceFromAsset(assetFilename)
                 .Grant(new RekognitionGrant().FullAccess())
-                .Grant(new S3Grant().ReadWrite().On(_bucketBuilder.GetInstance(scope).BucketArn))
+                .Grant(new S3Grant()
+                    .ReadWrite()
+                    .On($"{_bucketBuilder.GetInstance(scope).BucketArn}*")
+                )
                 .AddS3EventSource(_bucketBuilder, EventType.OBJECT_CREATED);
             
             return base.Build(scope);

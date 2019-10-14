@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace ImageTagger.Web
 {
@@ -35,18 +36,31 @@ namespace ImageTagger.Web
 
             services.AddTransient<IImageFileService, S3ImageFileService>();
             services.AddTransient<IImageService, ImageService>();
-            
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            
+
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddRazorPagesOptions(o =>
+            {
+                o.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
+            });
+
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.ClearProviders();
+                loggingBuilder.AddConsole();
+                loggingBuilder.AddDebug();
+                loggingBuilder.AddLambdaLogger();
+            });
+
             var localOptions = Configuration.GetAWSOptions();
-//#if DEBUG
-//                // _startupLogs.Add($"No Aws Profile found. Getting Aws Credentials from Environment");
-//                Console.WriteLine($"Getting Aws Credentials from Environment");
-//                localOptions.Credentials = new BasicAWSCredentials(
-//                    Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID"),
-//                    Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY"));
-//            localOptions.Region = RegionEndpoint.EUWest1;
-//#endif
+            //#if DEBUG
+            //                // _startupLogs.Add($"No Aws Profile found. Getting Aws Credentials from Environment");
+            //                Console.WriteLine($"Getting Aws Credentials from Environment");
+            //                localOptions.Credentials = new BasicAWSCredentials(
+            //                    Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID"),
+            //                    Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY"));
+            //#endif
+            localOptions.Region = RegionEndpoint.EUWest1;
             services.AddDefaultAWSOptions(localOptions);
             services.AddAWSService<IAmazonS3>();
             services.AddAWSService<IAmazonDynamoDB>();

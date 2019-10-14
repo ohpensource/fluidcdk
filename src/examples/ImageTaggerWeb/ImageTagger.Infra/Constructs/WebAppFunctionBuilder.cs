@@ -30,7 +30,7 @@ namespace ImageTagger.Infra.Constructs
                 .AddEnvVariables("IMGTAGGER_BUCKETNAME", _imageBucket.GetInstance(scope).BucketName)
                 .Grant(new S3Grant()
                     .ReadWrite()
-                    .On(_imageBucket.GetInstance(scope).BucketArn)
+                    .On($"{_imageBucket.GetInstance(scope).BucketArn}*")
                 );
                 
 

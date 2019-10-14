@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 
 namespace ImageTagger.Web.Pages
 {
+    [IgnoreAntiforgeryToken(Order = 2000)]
     public class IndexModel : PageModel
     {
         readonly IImageService _imageService;
@@ -35,37 +36,46 @@ namespace ImageTagger.Web.Pages
 
         public async Task OnGetAsync()
         {
-            try
+            using (var scope = _logger.BeginScope(nameof(OnGetAsync)))
             {
-                ImagesInBucket = (await _imageService.GetAllImageUrls())?.ToList();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error in OnGetAsync: \n"+JsonConvert.SerializeObject(ex));
-                throw ;
+                try
+                {
+                    ImagesInBucket = (await _imageService.GetAllImageUrls())?.ToList();
+                    _logger.LogDebug($"ImagesInBucket = {JsonConvert.SerializeObject(ImagesInBucket)}");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error in OnGetAsync: \n" + JsonConvert.SerializeObject(ex));
+                    throw;
+                }
             }
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            try
+            using (var scope = _logger.BeginScope(nameof(OnPostAsync)))
             {
-                if (FileUpload != null)
+                try
                 {
-                    using (var stream = FileUpload.OpenReadStream())
+                    if (FileUpload != null)
                     {
+                        _logger.LogDebug($"Uploading file: {FileUpload.FileName}");
+                        using (var stream = FileUpload.OpenReadStream())
+                        {
 
-                        var fileName = FileUpload.FileName.Replace(" ", "-");
-                        await _imageService.UploadImageAsync(stream, fileName);
+                            var fileName = FileUpload.FileName.Replace(" ", "-");
+                            await _imageService.UploadImageAsync(stream, fileName);
+                        }
+                        _logger.LogDebug("Uploaded!");
                     }
-                }
 
-                return Redirect(Url.Content("~/"));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error in OnPostAsync: \n" + JsonConvert.SerializeObject(ex));
-                throw;
+                    return Redirect(Url.Content("~/"));
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error in OnPostAsync: \n" + JsonConvert.SerializeObject(ex));
+                    throw;
+                }
             }
         }
     }

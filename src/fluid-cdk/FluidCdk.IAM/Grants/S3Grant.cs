@@ -8,12 +8,10 @@ namespace FluidCdk.IAM.Grants
 {
     public class S3Grant : GrantBase, IGrantBuilder
     {
-          public static PolicyStatement GetFullAccess(string[] resources = null)
+        public S3Grant FullAccess()
         {
-            var result = new PolicyStatement();
-            result.AddActions("s3:*");
-            result.AddResources(resources ?? new[] { "*" });
-            return result;
+            _ = Actions("s3:*");
+            return this;
         }
 
         public S3Grant Readonly()

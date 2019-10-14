@@ -10,6 +10,7 @@ using Amazon.S3.Model;
 using ImageTagger.Domain.Contracts;
 using ImageTagger.Domain.Models;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace ImageTagger.Domain.Services
 {
@@ -21,45 +22,56 @@ namespace ImageTagger.Domain.Services
 
         public S3ImageFileService(ILogger<S3ImageFileService> logger, IAmazonS3 s3Client)
         {
-            _s3BucketName = Environment.GetEnvironmentVariable("IMGTAGGER_BUCKETNAME");
             _logger = logger;
             _s3Client = s3Client;
+            _s3BucketName = Environment.GetEnvironmentVariable("IMGTAGGER_BUCKETNAME");
+            _logger.LogDebug($"S3ImageFileServce bucketname: {_s3BucketName}");
         }
 
         public async Task UploadAsync(Stream file, string filename)
         {
-            try
+            using(var scope = _logger.BeginScope($"{nameof(UploadAsync)}(file,{filename})"))
             {
-                await _s3Client.UploadObjectFromStreamAsync(_s3BucketName, filename, file, null);
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(LogLevel.Error, $"Error uploading {filename}. {ex.Message} - {ex.StackTrace}");
-                throw;
-            }
+                try
+                {
+                    await _s3Client.UploadObjectFromStreamAsync(_s3BucketName, filename, file, null);
 
+                    _logger.LogDebug("Uploaded file");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error uploading {filename}. {ex.Message} - {ex.StackTrace}");
+                    throw;
+                }
+            }
         }
 
         public async Task<IEnumerable<TaggedImage>> GetAllImages()
         {
-            var request = new ListObjectsV2Request
+            using (var scope = _logger.BeginScope(nameof(GetAllImages)))
             {
-                BucketName = _s3BucketName
-            };
-            ListObjectsV2Response response = null;
-            var taggedFiles = new List<TaggedImage>();
-            do
-            {
-                response = await _s3Client.ListObjectsV2Async(request);
-                var batch = response.S3Objects
-                    .Where(o => IsSupportedImageFormat(o.Key))
-                    .Select(o => GetTaggedImage(o).Result);
+                var request = new ListObjectsV2Request
+                {
+                    BucketName = _s3BucketName
+                };
+                ListObjectsV2Response response = null;
+                var taggedFiles = new List<TaggedImage>();
+                do
+                {
+                    response = await _s3Client.ListObjectsV2Async(request);
 
-                taggedFiles.AddRange(batch);
+                    _logger.LogDebug($"Response: {JsonConvert.SerializeObject(response)}");
 
-            } while (response.HttpStatusCode == HttpStatusCode.OK && response.IsTruncated);
+                    var batch = response.S3Objects
+                        .Where(o => IsSupportedImageFormat(o.Key))
+                        .Select(o => GetTaggedImage(o).Result);
 
-            return taggedFiles;
+                    taggedFiles.AddRange(batch);
+
+                } while (response.HttpStatusCode == HttpStatusCode.OK && response.IsTruncated);
+
+                return taggedFiles;
+            }
         }
 
         private bool IsSupportedImageFormat(string fileName)
@@ -69,44 +81,60 @@ namespace ImageTagger.Domain.Services
 
         private async Task<Dictionary<string, string>> GetFileTags(string key)
         {
-            var request = new GetObjectTaggingRequest
+            using (var scope = _logger.BeginScope(nameof(GetFileTags)))
             {
-                BucketName = _s3BucketName,
-                Key = key
-            };
-            var response = await _s3Client.GetObjectTaggingAsync(request);
+                var request = new GetObjectTaggingRequest
+                {
+                    BucketName = _s3BucketName,
+                    Key = key
+                };
+                
+                var response = await _s3Client.GetObjectTaggingAsync(request);
 
-            if (response.HttpStatusCode != HttpStatusCode.OK)
-                return new Dictionary<string, string>();
+                _logger.LogDebug($"Returned: {JsonConvert.SerializeObject(response)} ");
 
-            return response.Tagging.OrderByDescending(t => t.Value).ToDictionary(t => t.Key, t => t.Value);
+                if (response.HttpStatusCode != HttpStatusCode.OK)
+                    return new Dictionary<string, string>();
+
+                var result = response.Tagging.OrderByDescending(t => t.Value).ToDictionary(t => t.Key, t => t.Value);
+
+                return result;
+            }
         }
 
         private string GeneratePresignedUrl(string key)
         {
-            var request = new GetPreSignedUrlRequest
+            using (var scope = _logger.BeginScope($"{nameof(GeneratePresignedUrl)}({key})"))
             {
-                BucketName = _s3BucketName,
-                Key = key,
-                Expires = DateTime.Now.AddMinutes(5)
-            };
+                var request = new GetPreSignedUrlRequest
+                {
+                    BucketName = _s3BucketName,
+                    Key = key,
+                    Expires = DateTime.Now.AddMinutes(5)
+                };
 
-            return _s3Client.GetPreSignedURL(request);
-
+                var result = _s3Client.GetPreSignedURL(request);
+                return result;
+            }
         }
 
         private async Task<TaggedImage> GetTaggedImage(S3Object s3Object)
         {
-            var tags = await GetFileTags(s3Object.Key);
-
-            return new TaggedImage
+            using (var scope = _logger.BeginScope($"{nameof(GetTaggedImage)}({JsonConvert.SerializeObject(s3Object)})"))
             {
-                FileName = s3Object.Key,
-                Path = Path.GetDirectoryName(s3Object.Key),
-                Tags = tags,
-                SizeInKb = s3Object.Size / 1024,
-                PresignedUrl = GeneratePresignedUrl(s3Object.Key)
-            };
+                var tags = await GetFileTags(s3Object.Key);
+
+                var result = new TaggedImage
+                {
+                    FileName = s3Object.Key,
+                    Path = Path.GetDirectoryName(s3Object.Key),
+                    Tags = tags,
+                    SizeInKb = s3Object.Size / 1024,
+                    PresignedUrl = GeneratePresignedUrl(s3Object.Key)
+                };
+
+                return result;
+            }
         }
     }
 }
