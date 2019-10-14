@@ -53,13 +53,12 @@ namespace ImageTagger.Web
             });
 
             var localOptions = Configuration.GetAWSOptions();
-            //#if DEBUG
-            //                // _startupLogs.Add($"No Aws Profile found. Getting Aws Credentials from Environment");
-            //                Console.WriteLine($"Getting Aws Credentials from Environment");
-            //                localOptions.Credentials = new BasicAWSCredentials(
-            //                    Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID"),
-            //                    Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY"));
-            //#endif
+#if DEBUG
+            Console.WriteLine($"Getting Aws Credentials from Environment");
+            localOptions.Credentials = new BasicAWSCredentials(
+                Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID"),
+                Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY"));
+#endif
             localOptions.Region = RegionEndpoint.EUWest1;
             services.AddDefaultAWSOptions(localOptions);
             services.AddAWSService<IAmazonS3>();

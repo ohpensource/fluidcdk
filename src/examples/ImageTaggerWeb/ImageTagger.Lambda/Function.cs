@@ -55,8 +55,7 @@ namespace ImageTagger.Lambda
             var environmentMinConfidence = System.Environment.GetEnvironmentVariable(MIN_CONFIDENCE_ENVIRONMENT_VARIABLE_NAME);
             if(!string.IsNullOrWhiteSpace(environmentMinConfidence))
             {
-                float value;
-                if(float.TryParse(environmentMinConfidence, out value))
+                if (float.TryParse(environmentMinConfidence, out float value))
                 {
                     this.MinConfidence = value;
                     Console.WriteLine($"Setting minimum confidence to {this.MinConfidence}");

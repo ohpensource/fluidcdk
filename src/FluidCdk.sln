@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluidCdk.S3", "fluid-cdk\Fl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluidCdk.IAM", "fluid-cdk\FluidCdk.IAM\FluidCdk.IAM.csproj", "{D3BD4A4B-ACEC-49AA-A7C4-FC318477A082}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTagger.Infra.UnitTest", "examples\ImageTaggerWeb\ImageTagger.Infra.UnitTest\ImageTagger.Infra.UnitTest.csproj", "{5118E0DA-C0FD-415B-BFE0-DDD88F7988FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{D3BD4A4B-ACEC-49AA-A7C4-FC318477A082}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3BD4A4B-ACEC-49AA-A7C4-FC318477A082}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3BD4A4B-ACEC-49AA-A7C4-FC318477A082}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5118E0DA-C0FD-415B-BFE0-DDD88F7988FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5118E0DA-C0FD-415B-BFE0-DDD88F7988FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5118E0DA-C0FD-415B-BFE0-DDD88F7988FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5118E0DA-C0FD-415B-BFE0-DDD88F7988FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +90,7 @@ Global
 		{1C614AE2-3725-4F02-B21B-112B3CFCF12D} = {E29D5232-77D0-40F9-851E-7BCF8A27008E}
 		{90E574CC-F38D-4993-A963-79EF4C01FC65} = {E29D5232-77D0-40F9-851E-7BCF8A27008E}
 		{D3BD4A4B-ACEC-49AA-A7C4-FC318477A082} = {E29D5232-77D0-40F9-851E-7BCF8A27008E}
+		{5118E0DA-C0FD-415B-BFE0-DDD88F7988FA} = {C65F86B1-182B-46F9-8BF5-7C64397ED6ED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {331262F4-F6CB-4237-9B1C-35D2274F9AED}

@@ -9,24 +9,22 @@ namespace ImageTagger.Infra.Constructs
 
     public class WebAppFunctionBuilder : FunctionBuilder, IWebAppFunctionBuilder
     {
-        readonly IConfiguration _config;
+        readonly InfraContext _infraContext;
         readonly IImageBucketBuilder _imageBucket;
 
-        public WebAppFunctionBuilder(IConfiguration config, IImageBucketBuilder imageBucket)
+        public WebAppFunctionBuilder(InfraContext infraContext, IImageBucketBuilder imageBucket)
         {
-            _config = config;
+            _infraContext = infraContext;
             _imageBucket = imageBucket;
         }
 
         protected override Amazon.CDK.AWS.Lambda.Function Build(Construct scope)
         {
-            var infraConfig = _config.GetSection("Infrastructure");
-            var name = infraConfig.GetValue<string>("RestApiFunctionName");
 
             this
-                .SourceFromAsset(_config.GetValue<string>("ASSET_FOLDER") + $"\\ImageTagger.Web.zip")
+                .SourceFromAsset(_infraContext.AssetFileFolder + $"\\ImageTagger.Web.zip")
                 .SetHandler("ImageTagger.Web::ImageTagger.Web.LambdaEntryPoint::FunctionHandlerAsync")
-                .SetName(name)
+                .SetName(_infraContext.RestApiFunctionName)
                 .AddEnvVariables("IMGTAGGER_BUCKETNAME", _imageBucket.GetInstance(scope).BucketName)
                 .Grant(new S3Grant()
                     .ReadWrite()

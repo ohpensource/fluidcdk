@@ -13,20 +13,19 @@ namespace ImageTagger.Infra.Constructs
 
     public class TaggerFunctionBuilder : FunctionBuilder, ITaggerFunctionBuilder
     {
-        readonly IConfiguration _config;
+        readonly InfraContext _infraContext;
         readonly IImageBucketBuilder _bucketBuilder;
         
-        public TaggerFunctionBuilder(IConfiguration config, IImageBucketBuilder bucketBuilder)
+        public TaggerFunctionBuilder(InfraContext infraContext, IImageBucketBuilder bucketBuilder)
         {
-            _config = config;
+            _infraContext = infraContext;
             _bucketBuilder = bucketBuilder;
         }
 
         protected override Function Build(Construct scope)
         {
-            var config = _config.GetSection("Infrastructure");
-            var functionName = config.GetValue<string>("ImageTaggerFunctionName");
-            var assetFilename = _config.GetValue<string>("ASSET_FOLDER") + $"\\ImageTagger.Lambda.zip";
+            var functionName = _infraContext.ImageTaggerFunctionName;
+            var assetFilename = _infraContext.AssetFileFolder + $"\\ImageTagger.Lambda.zip";
 
             this.SetName(functionName)
                 .SetHandler("ImageTagger.Lambda::ImageTagger.Lambda.Function::Handler")

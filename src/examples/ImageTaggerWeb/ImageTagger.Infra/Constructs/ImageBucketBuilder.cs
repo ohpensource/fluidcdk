@@ -16,16 +16,16 @@ namespace ImageTagger.Infra.Constructs
 
     public class ImageBucketBuilder : BucketBuilder, IImageBucketBuilder
     {
-        readonly IConfiguration _config;
+        readonly InfraContext _infraContext;
 
-        public ImageBucketBuilder(IConfiguration config)
+        public ImageBucketBuilder(InfraContext infraContext)
         {
-            _config = config;
+            _infraContext = infraContext;
         }
 
         protected override Bucket Build(Construct scope)
         {
-            this.SetName(_config.GetSection("Infrastructure").GetValue<string>("ImageBucketName"));
+            this.SetName(_infraContext.ImageBucketName);
             return base.Build(scope);
         }
     }

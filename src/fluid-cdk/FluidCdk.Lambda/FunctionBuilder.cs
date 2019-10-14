@@ -29,7 +29,7 @@ namespace FluidCdk.Lambda
         IFunctionBuilder SourceFromAsset(string assetLocation);
         IFunctionBuilder WithInlineCode(Runtime runtime, string code);
         IFunctionBuilder AddS3EventSource(IConstructBuilder<Bucket> bucketBuilder, params EventType[] eventTypes);
-        IFunctionBuilder Grant(IGrantBuilder policyStatementBuilder);
+        IFunctionBuilder Grant(IGrantBuilder grantBuilder);
         IFunctionBuilder AddEnvVariables(string key, string value);
         IFunctionBuilder AddEnvVariables(IDictionary<string, string> variables);
     }
@@ -65,9 +65,9 @@ namespace FluidCdk.Lambda
             return lambda;
         }
 
-        public IFunctionBuilder SetName(string functionName)
+        public IFunctionBuilder SetName(string name)
         {
-            _name = functionName;
+            _name = name;
             return this;
         }
 

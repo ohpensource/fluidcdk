@@ -6,7 +6,7 @@ using FluidCdk.Core.Contracts;
 
 namespace FluidCdk.IAM.Grants
 {
-    public class S3Grant : GrantBase, IGrantBuilder
+    public class S3Grant : GrantBase
     {
         public S3Grant FullAccess()
         {
