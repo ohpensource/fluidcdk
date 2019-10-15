@@ -16,13 +16,10 @@ namespace ImageTagger.Infra.UnitTest
     public class ImageTaggerStackBuilderTests
     {
 
-        readonly Stack _testStack;
-        InfraContext _infraContext;
+        readonly InfraContext _infraContext;
 
         public ImageTaggerStackBuilderTests()
         {
-            var testApp = new App();
-            _testStack = new Stack(testApp, "teststack");
             _infraContext = new InfraContext
             {
                 StackName = "stackname",
@@ -43,16 +40,17 @@ namespace ImageTagger.Infra.UnitTest
             [Frozen] IWebAppFunctionBuilder webAppFunctionBuilderMock,
             [Frozen] IWebAppRestApiBuilder webAppRestApiBuilderMock)
         {
+            Stack testStack = new Stack(null, "testStackstack", null);
 
-            var testLambda = GetTestLambdaStub();
+            var testLambda = GetTestLambdaStub(null);
 
-            functionBuilderMock.GetInstance(_testStack).Returns(testLambda);
-            webAppFunctionBuilderMock.GetInstance(_testStack).Returns(testLambda);
-            webAppRestApiBuilderMock.GetInstance(_testStack).Returns(new RestApi(_testStack, "test3"));
+            functionBuilderMock.GetInstance(testStack).Returns(testLambda);
+            webAppFunctionBuilderMock.GetInstance(testStack).Returns(testLambda);
+            webAppRestApiBuilderMock.GetInstance(testStack).Returns(new RestApi(testStack, "test3"));
 
             var sut = new ImageTaggerStackBuilder(_infraContext, functionBuilderMock, webAppFunctionBuilderMock, webAppRestApiBuilderMock);
 
-            var result = sut.GetInstance(_testStack);
+            var result = sut.GetInstance(null);
 
             Assert.IsType<Stack>(result);
             Assert.NotNull(result);
@@ -61,20 +59,20 @@ namespace ImageTagger.Infra.UnitTest
             Assert.Equal(_infraContext.Account, result.Account);
             Assert.Equal(_infraContext.Region, result.Region);
 
-            functionBuilderMock.ReceivedWithAnyArgs(1).GetInstance(_testStack);
-            webAppFunctionBuilderMock.ReceivedWithAnyArgs(1).GetInstance(_testStack);
-            webAppRestApiBuilderMock.ReceivedWithAnyArgs(1).GetInstance(_testStack);
+            functionBuilderMock.ReceivedWithAnyArgs(1).GetInstance(testStack);
+            webAppFunctionBuilderMock.ReceivedWithAnyArgs(1).GetInstance(testStack);
+            webAppRestApiBuilderMock.ReceivedWithAnyArgs(1).GetInstance(testStack);
 
         }
 
-        private Function GetTestLambdaStub()
+        private Function GetTestLambdaStub(Stack scope)
         {
-            return new Function(_testStack, "test1", new FunctionProps
+            return new Function(scope, "test1", new FunctionProps
             {
                 FunctionName = "testlambda",
                 Runtime = Runtime.DOTNET_CORE_2_1,
-                Handler = "aws::wwww::wwww",
-                Code = Code.FromBucket(new Bucket(_testStack, "testbucket", null), "test", null)
+                Handler = "handler",
+                Code = Code.FromBucket(new Bucket(scope, "testbucket", null), "test", null)
             });
 
 

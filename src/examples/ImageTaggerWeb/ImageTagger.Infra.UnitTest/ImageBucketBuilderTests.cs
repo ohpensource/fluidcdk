@@ -12,13 +12,10 @@ namespace ImageTagger.Infra.UnitTest
 {
     public class ImageBucketBuilderTests
     {
-        readonly Stack _testStack;
-        InfraContext _infraContext;
+        readonly InfraContext _infraContext;
 
         public ImageBucketBuilderTests()
         {
-            var testApp = new App();
-            _testStack = new Stack(testApp,"teststack");
             _infraContext = new InfraContext
             {
                 StackName = "stackname",
@@ -36,9 +33,11 @@ namespace ImageTagger.Infra.UnitTest
         [Fact]
         public void When_GetInstance_is_called()
         {
+            var testStack =  new Stack(null, "testStackbucket", null);
+
             var sut = new ImageBucketBuilder(_infraContext);
 
-            var result = sut.GetInstance(_testStack);
+            var result = sut.GetInstance(testStack);
 
             Assert.IsType<Bucket>(result);
             Assert.Equal(_infraContext.ImageBucketName, result.Node.Id );

@@ -59,24 +59,6 @@ if ($?)
 
 Set-Location $localFolder
 
-## Upload Artifacts
-#if ($?) {
-#    Write-ColorOutput "cyan" "Uploading Artifacts..."
-#    $zipnametagger = "ImageTagger.Lambda.zip"
-#    $zippathtagger = "$localFolder\src\examples\ImageTaggerWeb\ImageTagger.Lambda\bin\Release\netcoreapp2.1\$zipnametagger"
-#    $zipnameweb = "ImageTagger.zip"
-#    $zippathweb = "$localFolder\src\examples\ImageTaggerWeb\ImageTagger\bin\Release\netcoreapp2.1\$zipnameweb"
-#    $s3pathtagger = "s3://$s3Bucket/$stackname-$zipnametagger"
-#    $s3pathweb = "s3://$s3Bucket/$stackname-$zipnameweb"
-#
-#    Write-ColorOutput "cyan" "  >> Uploading $zipnametagger lambda code to $s3pathtagger..."
-#    aws s3 cp $zippathtagger $s3pathtagger --profile $profile
-#    Write-ColorOutput "cyan" "  >> Uploading $zipnameweb lambda code to $s3pathweb..."
-#    aws s3 cp $zippathweb $s3pathweb --profile $profile
-#}
-#
-
-
 if ($?) {
 # Deploying Stack
     Write-ColorOutput "cyan" "Deploying stack..."

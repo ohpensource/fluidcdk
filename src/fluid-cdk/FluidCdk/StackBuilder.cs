@@ -13,13 +13,6 @@ namespace FluidCdk.Core
         readonly StackProps _props = new StackProps();
         readonly List<IConstructBuilder<Construct>> _constructs= new List<IConstructBuilder<Construct>>();
 
-        public StackBuilder() {}
-
-        public StackBuilder(string name)
-        {
-            _props.StackName = name;
-        }
-
         public StackBuilder SetName(string name)
         {
             _props.StackName = name;
@@ -60,7 +53,7 @@ namespace FluidCdk.Core
         protected override Stack Build(Construct scope)
         {
             var stack = new Stack(scope, _props.StackName, _props);
-            _constructs.ForEach(c => c.GetInstance(stack));
+            _constructs?.ForEach(c => c.GetInstance(stack));
             return stack;
         }
     }

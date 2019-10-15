@@ -9,29 +9,29 @@ namespace ImageTagger.Infra.Constructs
     public class ImageTaggerStackBuilder : StackBuilder, IImageTaggerStackBuilder
     {
         readonly InfraContext _infraContext;
-        readonly ITaggerFunctionBuilder _functionBuilder;
-        readonly IWebAppFunctionBuilder _apiBuilder;
-        private readonly IWebAppRestApiBuilder _restApi;
+        readonly ITaggerFunctionBuilder _taggerFunctionBuilder;
+        readonly IWebAppFunctionBuilder _apiFunctionBuilder;
+        readonly IWebAppRestApiBuilder _restApiBuilder;
 
         public ImageTaggerStackBuilder(
             InfraContext infraContext, 
-            ITaggerFunctionBuilder functionBuilder, 
-            IWebAppFunctionBuilder apiBuilder, 
-            IWebAppRestApiBuilder restApi)
+            ITaggerFunctionBuilder taggerFunctionBuilder, 
+            IWebAppFunctionBuilder apiFunctionBuilder, 
+            IWebAppRestApiBuilder restApiBuilder)
         {
             _infraContext = infraContext;
-            _functionBuilder = functionBuilder;
-            _apiBuilder = apiBuilder;
-            _restApi = restApi;
+            _taggerFunctionBuilder = taggerFunctionBuilder;
+            _apiFunctionBuilder = apiFunctionBuilder;
+            _restApiBuilder = restApiBuilder;
         }
 
         protected override Stack Build(Construct scope)
         {
             this.SetName(_infraContext.StackName)
                 .SetEnv(_infraContext.Account, _infraContext.Region)
-                .Add(_functionBuilder)
-                .Add(_restApi)
-                .Add(_apiBuilder);
+                .Add(_taggerFunctionBuilder)
+                .Add(_restApiBuilder)
+                .Add(_apiFunctionBuilder);
 
             return base.Build(scope);
         }
