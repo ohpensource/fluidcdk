@@ -17,7 +17,7 @@ namespace ImageTagger.Infra.UnitTest
     {
 
         readonly Stack _testStack;
-        InfraContext _infraContext;
+        readonly IInfraContext _infraContext;
 
         public ImageTaggerStackBuilderTests()
         {

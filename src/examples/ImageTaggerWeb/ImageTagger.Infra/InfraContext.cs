@@ -4,7 +4,21 @@ using System.Text;
 
 namespace ImageTagger.Infra
 {
-    public class InfraContext
+
+    public interface IInfraContext
+    {
+        string Account { get; set; }
+        string Region { get; set; }
+        string StackName { get; set; }
+        string ImageBucketName { get; set; }
+        string ImageTaggerFunctionName { get; set; }
+        string AssetFileFolder { get; set; }
+        string WebApiRestApiName { get; set; }
+        string RestApiFunctionName { get; set; }
+
+    }
+
+    public class InfraContext : IInfraContext
     {
         public string Account { get; set; }
         public string Region { get; set; }

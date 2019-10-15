@@ -8,13 +8,13 @@ namespace ImageTagger.Infra.Constructs
 
     public class ImageTaggerStackBuilder : StackBuilder, IImageTaggerStackBuilder
     {
-        readonly InfraContext _infraContext;
+        readonly IInfraContext _infraContext;
         readonly ITaggerFunctionBuilder _functionBuilder;
         readonly IWebAppFunctionBuilder _apiBuilder;
         private readonly IWebAppRestApiBuilder _restApi;
 
         public ImageTaggerStackBuilder(
-            InfraContext infraContext, 
+            IInfraContext infraContext, 
             ITaggerFunctionBuilder functionBuilder, 
             IWebAppFunctionBuilder apiBuilder, 
             IWebAppRestApiBuilder restApi)

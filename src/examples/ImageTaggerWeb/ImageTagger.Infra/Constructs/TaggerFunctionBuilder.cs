@@ -13,10 +13,10 @@ namespace ImageTagger.Infra.Constructs
 
     public class TaggerFunctionBuilder : FunctionBuilder, ITaggerFunctionBuilder
     {
-        readonly InfraContext _infraContext;
+        readonly IInfraContext _infraContext;
         readonly IImageBucketBuilder _bucketBuilder;
         
-        public TaggerFunctionBuilder(InfraContext infraContext, IImageBucketBuilder bucketBuilder)
+        public TaggerFunctionBuilder(IInfraContext infraContext, IImageBucketBuilder bucketBuilder)
         {
             _infraContext = infraContext;
             _bucketBuilder = bucketBuilder;

@@ -1,8 +1,5 @@
 # Input Parameters
 param (
-    $profile="personal",
-    $stackname="joan-cdk-test",
-    $s3Bucket="joan-cdk-test-codebucket",
     $localFolder="C:\OhpenGit\FluidCdk\"
 );
 
@@ -27,7 +24,7 @@ function Write-ColorOutput($ForegroundColor)
     $host.UI.RawUI.ForegroundColor = $fc
 }
 
-Write-ColorOutput "green" "Parameters: `n`r`tProfile: '$profile'`n`r`tStackName: '$stackname'`n`r`tS3 Bucket: '$s3Bucket'`n`r`tLocal folder: $localFolder"
+Write-ColorOutput "green" "`n`r`tLocal folder: $localFolder"
 Write-Host -NoNewLine 'Press any key to continue...';
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 Write-Host ""
@@ -58,24 +55,6 @@ if ($?)
 }
 
 Set-Location $localFolder
-
-## Upload Artifacts
-#if ($?) {
-#    Write-ColorOutput "cyan" "Uploading Artifacts..."
-#    $zipnametagger = "ImageTagger.Lambda.zip"
-#    $zippathtagger = "$localFolder\src\examples\ImageTaggerWeb\ImageTagger.Lambda\bin\Release\netcoreapp2.1\$zipnametagger"
-#    $zipnameweb = "ImageTagger.zip"
-#    $zippathweb = "$localFolder\src\examples\ImageTaggerWeb\ImageTagger\bin\Release\netcoreapp2.1\$zipnameweb"
-#    $s3pathtagger = "s3://$s3Bucket/$stackname-$zipnametagger"
-#    $s3pathweb = "s3://$s3Bucket/$stackname-$zipnameweb"
-#
-#    Write-ColorOutput "cyan" "  >> Uploading $zipnametagger lambda code to $s3pathtagger..."
-#    aws s3 cp $zippathtagger $s3pathtagger --profile $profile
-#    Write-ColorOutput "cyan" "  >> Uploading $zipnameweb lambda code to $s3pathweb..."
-#    aws s3 cp $zippathweb $s3pathweb --profile $profile
-#}
-#
-
 
 if ($?) {
 # Deploying Stack

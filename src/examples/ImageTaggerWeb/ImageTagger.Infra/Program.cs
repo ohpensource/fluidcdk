@@ -44,7 +44,7 @@ namespace HelloCdk
                 loggingBuilder.AddDebug();
             });
 
-            services.AddSingleton<InfraContext>(BuildInfraContext(_config));
+            services.AddSingleton<IInfraContext>(BuildInfraContext(_config));
             services.AddSingleton<IImageTaggerStackBuilder, ImageTaggerStackBuilder>();
             services.AddSingleton<IImageBucketBuilder, ImageBucketBuilder>();
             services.AddSingleton<ITaggerFunctionBuilder, TaggerFunctionBuilder>();
@@ -61,7 +61,7 @@ namespace HelloCdk
             {
                 StackName = section.GetValue<string>("ImageTaggerStackName"),
                 Region = section.GetValue<string>("Region"),
-                AssetFileFolder = section.GetValue<string>("ASSET_FOLDER"),
+                AssetFileFolder = config.GetValue<string>("ASSET_FOLDER"),
                 WebApiRestApiName = section.GetValue<string>("WebApiRestApiName"),
                 ImageTaggerFunctionName = section.GetValue<string>("ImageTaggerFunctionName"),
                 Account = section.GetValue<string>("Account"),

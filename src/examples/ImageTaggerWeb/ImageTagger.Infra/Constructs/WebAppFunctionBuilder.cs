@@ -9,10 +9,10 @@ namespace ImageTagger.Infra.Constructs
 
     public class WebAppFunctionBuilder : FunctionBuilder, IWebAppFunctionBuilder
     {
-        readonly InfraContext _infraContext;
+        readonly IInfraContext _infraContext;
         readonly IImageBucketBuilder _imageBucket;
 
-        public WebAppFunctionBuilder(InfraContext infraContext, IImageBucketBuilder imageBucket)
+        public WebAppFunctionBuilder(IInfraContext infraContext, IImageBucketBuilder imageBucket)
         {
             _infraContext = infraContext;
             _imageBucket = imageBucket;

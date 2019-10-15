@@ -16,9 +16,9 @@ namespace ImageTagger.Infra.Constructs
 
     public class ImageBucketBuilder : BucketBuilder, IImageBucketBuilder
     {
-        readonly InfraContext _infraContext;
+        readonly IInfraContext _infraContext;
 
-        public ImageBucketBuilder(InfraContext infraContext)
+        public ImageBucketBuilder(IInfraContext infraContext)
         {
             _infraContext = infraContext;
         }
