@@ -22,7 +22,7 @@ namespace ImageTagger.Infra.Constructs
         {
 
             this
-                .SourceFromAsset(_infraContext.AssetFileFolder + $"\\ImageTagger.Web.zip")
+                .SourceFromAsset(_infraContext.AssetFileFolder + "\\ImageTagger.Web.zip")
                 .SetHandler("ImageTagger.Web::ImageTagger.Web.LambdaEntryPoint::FunctionHandlerAsync")
                 .SetName(_infraContext.RestApiFunctionName)
                 .AddEnvVariables("IMGTAGGER_BUCKETNAME", _imageBucket.GetInstance(scope).BucketName)

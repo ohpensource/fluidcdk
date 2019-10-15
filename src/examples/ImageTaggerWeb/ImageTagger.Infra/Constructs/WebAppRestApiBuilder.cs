@@ -19,12 +19,12 @@ namespace ImageTagger.Infra.Constructs
         public WebAppRestApiBuilder(IInfraContext infraContext, IWebAppFunctionBuilder appFunctionBuilder)
         {
             _infraContext = infraContext;
-            _appFunctionBuilder = appFunctionBuilder;
+            _webAppFunctionBuilder = webAppFunctionBuilder;
         }
 
         protected override RestApi Build(Construct scope)
         {
-            this.SetHandler(_appFunctionBuilder)
+            this.SetHandler(_webAppFunctionBuilder)
                 .AddBinaryMediaType("multipart/form-data")
                 .SetName(_infraContext.WebApiRestApiName);
 

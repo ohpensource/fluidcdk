@@ -25,7 +25,7 @@ namespace ImageTagger.Infra.Constructs
         protected override Function Build(Construct scope)
         {
             var functionName = _infraContext.ImageTaggerFunctionName;
-            var assetFilename = _infraContext.AssetFileFolder + $"\\ImageTagger.Lambda.zip";
+            var assetFilename = _infraContext.AssetFileFolder + "\\ImageTagger.Lambda.zip";
 
             this.SetName(functionName)
                 .SetHandler("ImageTagger.Lambda::ImageTagger.Lambda.Function::Handler")
