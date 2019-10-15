@@ -16,7 +16,6 @@ namespace ImageTagger.Infra.UnitTest
     public class ImageTaggerStackBuilderTests
     {
 
-        readonly Stack _testStack;
         readonly IInfraContext _infraContext;
 
         public ImageTaggerStackBuilderTests()

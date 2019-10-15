@@ -12,7 +12,6 @@ namespace ImageTagger.Infra.UnitTest
 {
     public class ImageBucketBuilderTests
     {
-        readonly Stack _testStack;
         readonly IInfraContext _infraContext;
 
         public ImageBucketBuilderTests()

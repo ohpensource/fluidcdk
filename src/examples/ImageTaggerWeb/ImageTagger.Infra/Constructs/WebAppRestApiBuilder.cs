@@ -13,10 +13,10 @@ namespace ImageTagger.Infra.Constructs
     public class WebAppRestApiBuilder : LambdaRestApiBuilder, IWebAppRestApiBuilder
     {
         readonly IInfraContext _infraContext;
-        private readonly IWebAppFunctionBuilder _appFunctionBuilder;
+        readonly IWebAppFunctionBuilder _webAppFunctionBuilder;
 
 
-        public WebAppRestApiBuilder(IInfraContext infraContext, IWebAppFunctionBuilder appFunctionBuilder)
+        public WebAppRestApiBuilder(IInfraContext infraContext, IWebAppFunctionBuilder webAppFunctionBuilder)
         {
             _infraContext = infraContext;
             _webAppFunctionBuilder = webAppFunctionBuilder;
