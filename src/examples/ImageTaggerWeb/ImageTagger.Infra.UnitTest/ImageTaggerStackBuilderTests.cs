@@ -43,14 +43,8 @@ namespace ImageTagger.Infra.UnitTest
             [Frozen] IWebAppFunctionBuilder webAppFunctionBuilderMock,
             [Frozen] IWebAppRestApiBuilder webAppRestApiBuilderMock)
         {
-            var testLambda = new Function(_testStack, "test1", new FunctionProps
-            {
-                FunctionName = "testlambda",
-                Runtime = Runtime.DOTNET_CORE_2_1,
-                Handler = "aws::wwww::wwww",
-                Code = Code.FromBucket(new Bucket(_testStack, "testbucket", null), "test", null)
-            });
 
+            var testLambda = GetTestLambdaStub();
 
             functionBuilderMock.GetInstance(_testStack).Returns(testLambda);
             webAppFunctionBuilderMock.GetInstance(_testStack).Returns(testLambda);
@@ -70,6 +64,19 @@ namespace ImageTagger.Infra.UnitTest
             functionBuilderMock.ReceivedWithAnyArgs(1).GetInstance(_testStack);
             webAppFunctionBuilderMock.ReceivedWithAnyArgs(1).GetInstance(_testStack);
             webAppRestApiBuilderMock.ReceivedWithAnyArgs(1).GetInstance(_testStack);
+
+        }
+
+        private Function GetTestLambdaStub()
+        {
+            return new Function(_testStack, "test1", new FunctionProps
+            {
+                FunctionName = "testlambda",
+                Runtime = Runtime.DOTNET_CORE_2_1,
+                Handler = "aws::wwww::wwww",
+                Code = Code.FromBucket(new Bucket(_testStack, "testbucket", null), "test", null)
+            });
+
 
         }
     }
