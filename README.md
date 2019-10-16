@@ -4,7 +4,7 @@ This template is based on [Google's new-project template](https://github.com/goo
 
 ## Instructions
 
-1. Check it out from Bitbucket.
+1. Fork it in GitHub.
 2. Create a new local repository and copy the files from this repo into it.
 3. Modify README.md using the template in [README Instructions](#markdown-header-readme-instructions).
 4. Modify the LICENSE file to add the year and copyright holder.
@@ -14,7 +14,7 @@ This template is based on [Google's new-project template](https://github.com/goo
 ### Set up your opensource repo using Git
 
 ``` shell
-git clone git@bitbucket.org:ohpen-dev/opensource-template.git
+git clone https://github.com/ohpensource/fluidcdk.git
 mkdir opensource-project
 cd opensource-project
 git init
