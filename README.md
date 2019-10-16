@@ -1,6 +1,6 @@
 # FluidCDK
 
-FluidCDK is a [fluent interface wrapper](https://en.wikipedia.org/wiki/Fluent_interface) for [AWS CDK (CloudFormation Development Kit)](https://aws.amazon.com/cdk/). It can drastically reduce the amount of code required to provision resources in AWS.
+FluidCDK is a [fluent interface](https://en.wikipedia.org/wiki/Fluent_interface) wrapper for [AWS CDK](https://aws.amazon.com/cdk/)  (CloudFormation Development Kit). It can drastically reduce the amount of code required to provision resources in AWS.
 
 ## Features
 
