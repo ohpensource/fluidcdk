@@ -1,9 +1,13 @@
 # Input Parameters
 param (
-    $localFolder="C:\OhpenSource\FluidCdk\",
+    $localfolder = "",
     $awsprofile = "",
     $awsaccount = ""
 );
+
+if (!$localfolder) {
+    $localfolder = Get-Location
+}
 
 if (!$awsprofile) {
     $awsprofile = $Env:AWS_PROFILE;
@@ -33,42 +37,42 @@ function Write-ColorOutput($ForegroundColor)
     $host.UI.RawUI.ForegroundColor = $fc
 }
 
-Write-ColorOutput "green" "`n`r`tLocal folder: $localFolder`n`r`tProfile: $awsprofile`n`r`tAWS Account: $awsaccount"
+Write-ColorOutput "green" "`n`r`tLocal folder: $localfolder`n`r`tProfile: $awsprofile`n`r`tAWS Account: $awsaccount"
 Write-Host -NoNewLine 'Press any key to continue...';
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 Write-Host ""
 
 # Delete any previous Log
-Set-Location $localFolder
+Set-Location $localfolder
 del .\build\*.log
 
 # Set Environment variables
-$Env:ASSET_FOLDER = "$localFolder\build\assets"
+$Env:ASSET_FOLDER = "$localfolder\build\assets"
 
 # Building & Packaging
 Write-ColorOutput "cyan" "Building Solution..."
-Set-Location $localFolder
-dotnet build .\src\FluidCdk.sln > $localFolder\build\build.log
+Set-Location $localfolder
+dotnet build .\src\FluidCdk.sln > $localfolder\build\build.log
 
 # Artifact Packaging
 if ($?) 
 {
     Write-ColorOutput "cyan" "  >> Packaging artifacts..."
     Set-Location .\src\examples\ImageTaggerWeb\ImageTagger.Lambda
-    dotnet lambda package -f netcoreapp2.1 -c Release -o $localFolder\build\assets\ImageTagger.Lambda.zip > $localFolder\build\packaging.log
+    dotnet lambda package -f netcoreapp2.1 -c Release -o $localfolder\build\assets\ImageTagger.Lambda.zip > $localfolder\build\packaging.log
 }
 if ($?) 
 {
     Set-Location $localfolder\src\examples\ImageTaggerWeb\ImageTagger
-    dotnet lambda package -f netcoreapp2.1 -c Release -o $localFolder\build\assets\ImageTagger.Web.zip >> $localFolder\build\packaging.log
+    dotnet lambda package -f netcoreapp2.1 -c Release -o $localfolder\build\assets\ImageTagger.Web.zip >> $localfolder\build\packaging.log
 }
 
-Set-Location $localFolder
+Set-Location $localfolder
 
 if ($?) {
 # Deploying Stack
     Write-ColorOutput "cyan" "Deploying stack..."
-    Set-Location $localFolder\src\examples\ImageTaggerWeb\ImageTagger.Infra
+    Set-Location $localfolder\src\examples\ImageTaggerWeb\ImageTagger.Infra
     cdk deploy --profile $awsprofile --output cdk.out
 }
 
@@ -80,11 +84,11 @@ if ($?) {
 if (!$?) {
     # Uh oh!
     Write-ColorOutput "red" "There was an error in the process ..."
-    Write-ColorOutput "green" "Check the logs at $localFolder\build\"
+    Write-ColorOutput "green" "Check the logs at $localfolder\build\"
         
 }
 
 # Cleanup
 Remove-Item Env:\ASSET_FOLDER
 
-Set-Location $localFolder
+Set-Location $localfolder
