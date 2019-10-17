@@ -1,8 +1,17 @@
 # Input Parameters
 param (
-    $localFolder="C:\OhpenGit\FluidCdk\"
+    $localFolder="C:\OhpenSource\FluidCdk\",
+    $awsprofile = "",
+    $awsaccount = ""
 );
 
+if (!$awsprofile) {
+    $awsprofile = $Env:AWS_PROFILE;
+}
+
+if (!$awsaccount) {
+    $awsaccount = $Env:AWS_ACCOUNT;
+}
 # Helpers
 function Write-ColorOutput($ForegroundColor)
 {
@@ -24,7 +33,7 @@ function Write-ColorOutput($ForegroundColor)
     $host.UI.RawUI.ForegroundColor = $fc
 }
 
-Write-ColorOutput "green" "`n`r`tLocal folder: $localFolder"
+Write-ColorOutput "green" "`n`r`tLocal folder: $localFolder`n`r`tProfile: $awsprofile`n`r`tAWS Account: $awsaccount"
 Write-Host -NoNewLine 'Press any key to continue...';
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 Write-Host ""
@@ -60,7 +69,7 @@ if ($?) {
 # Deploying Stack
     Write-ColorOutput "cyan" "Deploying stack..."
     Set-Location $localFolder\src\examples\ImageTaggerWeb\ImageTagger.Infra
-    cdk deploy
+    cdk deploy --profile $awsprofile --output cdk.out
 }
 
 if ($?) {

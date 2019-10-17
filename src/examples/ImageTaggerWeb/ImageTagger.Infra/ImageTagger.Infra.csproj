@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="cdk.out\**" />
+    <EmbeddedResource Remove="cdk.out\**" />
+    <None Remove="cdk.out\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="appsettings.json" />
   </ItemGroup>
 
@@ -30,10 +36,6 @@
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="cdk.out\asset.03918990104d8973acd2ad0abe022844192fcce618cf74f7734a7077f4111d1f\" />
   </ItemGroup>
 
 

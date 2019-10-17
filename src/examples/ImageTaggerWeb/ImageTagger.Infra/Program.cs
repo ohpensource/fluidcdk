@@ -64,7 +64,7 @@ namespace HelloCdk
                 AssetFileFolder = config.GetValue<string>("ASSET_FOLDER"),
                 WebApiRestApiName = section.GetValue<string>("WebApiRestApiName"),
                 ImageTaggerFunctionName = section.GetValue<string>("ImageTaggerFunctionName"),
-                Account = section.GetValue<string>("Account"),
+                Account = config.GetValue<string>("AWS_ACCOUNT"),
                 ImageBucketName = section.GetValue<string>("ImageBucketName"),
                 RestApiFunctionName = section.GetValue<string>("RestApiFunctionName")
             };

@@ -1,4 +1,3 @@
 {
-  "app": "dotnet bin/Debug/netcoreapp2.1/ImageTagger.Infra.dll",
-  "profile": "personal"
+  "app": "dotnet bin/Debug/netcoreapp2.1/ImageTagger.Infra.dll"
 }
