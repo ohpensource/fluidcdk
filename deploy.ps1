@@ -47,7 +47,8 @@ Set-Location $localfolder
 del .\build\*.log
 
 # Set Environment variables
-$Env:ASSET_FOLDER = "$localfolder\build\assets"
+$Env:ASSET_FOLDER = "$localfolder\build\assets";
+$Env:AWS_ACCOUNT = "$awsaccount";
 
 # Building & Packaging
 Write-ColorOutput "cyan" "Building Solution..."
@@ -90,5 +91,6 @@ if (!$?) {
 
 # Cleanup
 Remove-Item Env:\ASSET_FOLDER
+Remove-Item Env:\AWS_ACCOUNT
 
 Set-Location $localfolder
