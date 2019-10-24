@@ -11,15 +11,33 @@ FluidCDK is a [fluent interface](https://en.wikipedia.org/wiki/Fluent_interface)
 * CDK native objects can still be accessed.
 * SOLID design.
 
-## Instructions
+## ImageTagger demo
 
-To run the ImageTagger demo you will need to:
+### Prerequisites
 
-* Have an active [Amazon Web Services (AWS) account](https://aws.amazon.com)
-* Install [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html).
-* Install [NPM](https://www.npmjs.com/get-npm) if it's not yet installed in your system.
-* Install [AWS Cloud Developemnt Kit (CDK)](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html).
-* Configure your AWS CLI with a default profile.
-* Clone this repository.
-* From a PowerShell window, at the repository root, execute: `./deploy.ps1 -awsprofile "{profilename}" -awsaccount "{accountnumber}"` where `{profilename}` is the name of the profile you configured for the **AWS CLI** and `{accountnumber}` is your AWS account number.
-* Once the application is deployed, you'll get in Output the URL for running it.
+* [.NET Core 2.0 or higher](https://dotnet.microsoft.com/download)
+* [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html)
+* [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html)
+* [npm](https://www.npmjs.com/get-npm)
+* An active [Amazon Web Services (AWS) account](https://aws.amazon.com)
+
+### Instructions
+
+1. Clone this repository to the machine where AWS CLI is installed.
+2. Configure AWS CLI with a default profile (for instructions, [see the AWS documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)).
+
+#### Windows 
+
+3. Open a PowerShell session and change directory to the repository root folder.
+4. Run `./deploy.ps1 -awsprofile "{profilename}" -awsaccount "{accountnumber}"` where
+** `{profilename}` is the name of the profile you configured for the AWS CLI and
+** `{accountnumber}` is your AWS account number.
+5. Once the application is deployed, you'll get its URL.
+
+#### Linux / macOS 
+
+3. Open the terminal and change directory to the repository root folder.
+4. Run `./deploy.sh -awsprofile "{profilename}" -awsaccount "{accountnumber}"` where
+** `{profilename}` is the name of the profile you configured for the AWS CLI and
+** `{accountnumber}` is your AWS account number.
+5. Once the application is deployed, you'll get its URL.
