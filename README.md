@@ -29,7 +29,7 @@ FluidCDK is a [fluent interface](https://en.wikipedia.org/wiki/Fluent_interface)
 #### Windows 
 
 3. Open a PowerShell session and change directory to the repository root folder.
-4. Run `./deploy.ps1 -awsprofile "{profilename}" -awsaccount "{accountnumber}"` where
+4. Run `./deploy.ps1 -awsprofile {profilename} -awsaccount {accountnumber}` where
 ** `{profilename}` is the name of the profile you configured for the AWS CLI and
 ** `{accountnumber}` is your AWS account number.
 5. Once the application is deployed, you'll get its URL.
@@ -37,7 +37,7 @@ FluidCDK is a [fluent interface](https://en.wikipedia.org/wiki/Fluent_interface)
 #### Linux / macOS 
 
 3. Open the terminal and change directory to the repository root folder.
-4. Run `./deploy.sh -awsprofile "{profilename}" -awsaccount "{accountnumber}"` where
+4. Run `./deploy.sh {profilename} {accountnumber}` where
 ** `{profilename}` is the name of the profile you configured for the AWS CLI and
 ** `{accountnumber}` is your AWS account number.
 5. Once the application is deployed, you'll get its URL.
